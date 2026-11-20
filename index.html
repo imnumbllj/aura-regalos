@@ -3,128 +3,521 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Aura by Karli · Regalos y arreglos</title>
-<meta name="description" content="Regalos, arreglos y detalles hechos con cariño en La Habana.">
-<meta name="theme-color" content="#f6f1ea">
+<title>Aura by Karli · Regalos que duran para siempre</title>
+<meta name="description" content="Rosas eternas hechas a mano, cajas sorpresa y arreglos a la medida en La Habana.">
+<meta name="theme-color" content="#efe6ff">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Great+Vibes&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #f6f1ea; --surface: #fffaf4; --fg: #2a211b; --muted: #6f6157; --line: #e7dccf;
-    --lila: #8b5cf6; --lila-soft: #efe7ff; --lila-fg: #5b34c4; --verde: #1faa59;
-    --sombra: 0 10px 30px -12px rgba(60, 35, 20, .25);
+:root {
+  --lav-50: #faf7ff; --lav-100: #f1eaff; --lav-200: #e2d6fc; --lav-300: #cbb7f6; --lav-500: #9d7fe4;
+  --violeta: #7c3aed; --violeta-hondo: #5b2fb8;
+  --noche: #1d1430; --noche-2: #2a1d45;
+  --rosa-100: #fdeaf2; --rosa-300: #f6c0d6; --rosa-500: #e98bb3;
+  --oro: #e6c48f;
+  --tinta: #2b1f42; --tinta-suave: #6b5c86;
+  --muelle: cubic-bezier(.2, .9, .25, 1.15);
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--lav-50); color: var(--tinta); font: 16px/1.6 Inter, system-ui, sans-serif; overflow-x: hidden; }
+img { display: block; max-width: 100%; }
+h1, h2, h3 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+
+/* barra de progreso */
+#barra { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 50; transform-origin: 0 50%; transform: scaleX(0);
+  background: linear-gradient(90deg, var(--rosa-500), var(--violeta), var(--lav-300)); }
+
+/* ============ HERO ============ */
+.hero { position: relative; height: 100vh; height: 100svh; overflow: hidden; display: grid; place-items: center;
+  background: radial-gradient(120% 80% at 50% 0%, #fff 0%, var(--lav-100) 45%, var(--lav-200) 100%); }
+.bokeh { position: absolute; inset: 0; pointer-events: none; }
+.bokeh span { position: absolute; border-radius: 50%; opacity: .75;
+  background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.95), var(--c) 55%, transparent 72%);
+  animation: flota var(--t, 14s) ease-in-out infinite alternate; }
+@keyframes flota { from { transform: translate(0, 0); } to { transform: translate(var(--dx, 20px), var(--dy, -30px)); } }
+.hero-centro { position: relative; text-align: center; padding: 0 20px; z-index: 2; }
+.hero-velo { position: absolute; inset: -3px; z-index: 1; opacity: 0; pointer-events: none; background: var(--noche); }
+.hero-mascota { width: min(46vw, 230px, 27vh); width: min(46vw, 230px, 27svh); margin: 0 auto -6px; position: relative; }
+.hero-mascota::before { content: ""; position: absolute; inset: -18%; border-radius: 50%; z-index: -1;
+  background: radial-gradient(circle, rgba(255,255,255,.9), rgba(203,183,246,.55) 45%, transparent 70%); }
+.mascota svg { width: 100%; height: auto; overflow: visible; }
+.hero-titulo { line-height: .9; }
+.hero-titulo .aura { display: block; font-size: min(30vw, 190px, 19vh); font-size: min(30vw, 190px, 19svh); font-weight: 500; letter-spacing: .02em; color: #4a3478; }
+/* El degradado va en CADA letra: con las letras partidas en spans, un degradado recortado en el padre las deja sin pintar. */
+.hero-titulo .aura .letra { display: inline-block; padding: 0 .02em;
+  background: linear-gradient(180deg, #3b2a5c 10%, #7c5cc9 90%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-titulo .karli { display: block; font-family: "Great Vibes", cursive; font-weight: 400; font-size: clamp(38px, 11vw, 64px);
+  color: var(--rosa-500); margin-top: -6px; }
+.hero-lema { margin: 18px auto 0; max-width: 26ch; font-size: clamp(16px, 4.4vw, 19px); color: var(--tinta-suave); }
+.hero-bajar { position: absolute; bottom: max(22px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--tinta-suave); }
+.hero-bajar svg { width: 22px; height: 22px; animation: baja 1.8s ease-in-out infinite; }
+@keyframes baja { 0%, 100% { transform: translateY(0); opacity: .5; } 50% { transform: translateY(6px); opacity: 1; } }
+.chispa { position: absolute; width: 18px; height: 18px; color: #fff; filter: drop-shadow(0 0 6px rgba(157,127,228,.8));
+  animation: titila var(--t, 3s) ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes titila { 0%, 100% { transform: scale(.4) rotate(0); opacity: .2; } 50% { transform: scale(1) rotate(45deg); opacity: 1; } }
+
+/* ============ MANIFIESTO ============ */
+.manifiesto { position: relative; margin-top: -2px; min-height: 100vh; min-height: 100svh; display: grid; place-items: center; padding: 80px 24px;
+  background: radial-gradient(85% 50% at 50% 50%, var(--noche-2), var(--noche) 100%); color: #fff; overflow: hidden; }
+.manifiesto::before { content: ""; position: absolute; width: 120vmax; height: 120vmax; left: 50%; top: 50%; translate: -50% -50%;
+  background: radial-gradient(circle, rgba(124,58,237,.35), transparent 55%); pointer-events: none; }
+.manifiesto-texto { position: relative; max-width: 17ch; margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-weight: 500;
+  font-size: clamp(34px, 9.4vw, 72px); line-height: 1.12; text-align: center; }
+.manifiesto-texto em { font-style: italic; color: var(--rosa-300); }
+.manifiesto-texto .p { display: inline; }
+
+/* ============ ZOOM ============ */
+.zoom { position: relative; height: 100vh; height: 100svh; overflow: hidden; background: var(--noche); }
+.zoom-marco { position: absolute; inset: 0; overflow: hidden; }
+.zoom-marco img { width: 100%; height: 100%; object-fit: cover; }
+.zoom-marco::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(29,20,48,.88)); }
+.zoom-texto { position: absolute; left: 0; right: 0; bottom: max(40px, env(safe-area-inset-bottom)); padding: 0 24px; text-align: center; color: #fff; z-index: 2; }
+.zoom-texto h2 { font-size: clamp(44px, 13vw, 84px); line-height: 1; }
+.zoom-texto p { margin: 10px auto 0; max-width: 30ch; color: rgba(255,255,255,.85); }
+
+/* ============ MAZO ============ */
+.mazo { position: relative; min-height: 100vh; min-height: 100svh; padding: 64px 20px 40px; overflow: hidden;
+  background: radial-gradient(100% 70% at 50% 100%, var(--rosa-100), var(--lav-50) 70%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; }
+.rotulo { font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--violeta); font-weight: 600; text-align: center; }
+.mazo h2 { font-size: clamp(40px, 11vw, 68px); text-align: center; line-height: 1; }
+.mazo-cartas { position: relative; width: min(64vw, 300px); aspect-ratio: 3 / 4; }
+.carta { position: absolute; inset: 0; margin: 0; border-radius: 26px; overflow: hidden; background: #fff;
+  box-shadow: 0 30px 60px -20px rgba(91,47,184,.45), 0 0 0 6px #fff; }
+.carta img { width: 100%; height: 100%; object-fit: cover; }
+.mazo-textos { position: relative; width: 100%; max-width: 420px; min-height: 104px; text-align: center; }
+.mazo-texto { position: absolute; inset: 0; }
+.mazo-texto h3 { font-size: 32px; color: var(--violeta-hondo); }
+.mazo-texto p { margin: 4px auto 0; max-width: 32ch; color: var(--tinta-suave); }
+.mazo-puntos { display: flex; gap: 8px; }
+.mazo-puntos i { width: 7px; height: 7px; border-radius: 50%; background: var(--lav-300); transition: transform .3s, background .3s; }
+.mazo-puntos i.activo { background: var(--violeta); transform: scale(1.4); }
+
+/* ============ GALERÍA ============ */
+.galeria { position: relative; height: 100vh; height: 100svh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: 22px;
+  background: linear-gradient(180deg, var(--lav-50), var(--lav-100)); }
+.galeria-cabeza { text-align: center; padding: 0 20px; }
+.galeria-cabeza h2 { font-size: clamp(40px, 11vw, 68px); line-height: 1; }
+.galeria-cabeza p { margin: 6px 0 0; color: var(--tinta-suave); font-size: 15px; }
+.pista { display: flex; gap: 18px; padding: 10px 24px 24px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+.pista.animada { overflow: visible; scroll-snap-type: none; width: max-content; }
+.tarjeta { flex: none; margin: 0; scroll-snap-align: center; cursor: zoom-in; border: 0; padding: 0; background: none; text-align: left; font: inherit; color: inherit; }
+.tarjeta .foto { height: min(56vh, 460px); height: min(56svh, 460px); border-radius: 22px; overflow: hidden; background: #fff;
+  box-shadow: 0 24px 48px -18px rgba(91,47,184,.4), 0 0 0 5px #fff; }
+.tarjeta img { height: 100%; width: auto; object-fit: cover; }
+.tarjeta span { display: block; margin-top: 14px; font-size: 14px; font-weight: 500; color: var(--tinta-suave); max-width: 30ch; }
+
+/* ============ FINAL ============ */
+.final { position: relative; padding: 90px 20px max(48px, env(safe-area-inset-bottom)); text-align: center; overflow: hidden;
+  background: radial-gradient(120% 70% at 50% 0%, var(--lav-200), var(--lav-100) 40%, #fff 100%); }
+.final-mascota { position: relative; width: min(40vw, 190px); margin: 0 auto; }
+.nube { position: absolute; left: 62%; top: -18px; white-space: nowrap; background: #fff; color: var(--violeta-hondo); font-weight: 600; font-size: 15px;
+  padding: 10px 16px; border-radius: 18px 18px 18px 4px; box-shadow: 0 12px 30px -10px rgba(91,47,184,.45); }
+.final h2 { margin-top: 18px; font-size: clamp(44px, 12vw, 76px); line-height: 1; }
+.final h2 em { font-family: "Great Vibes", cursive; font-style: normal; font-weight: 400; color: var(--rosa-500); }
+.final > p { margin: 12px auto 0; max-width: 32ch; color: var(--tinta-suave); }
+.botones { display: grid; gap: 12px; max-width: 460px; margin: 30px auto 0; text-align: left; }
+.boton { position: relative; display: flex; align-items: center; gap: 14px; padding: 17px 20px; border-radius: 20px; text-decoration: none; font-weight: 600;
+  color: var(--tinta); background: rgba(255,255,255,.75); border: 1px solid var(--lav-200); box-shadow: 0 16px 36px -18px rgba(91,47,184,.45);
+  transition: transform .4s var(--muelle); }
+.boton:active { transform: scale(.97); }
+.boton svg { width: 26px; height: 26px; flex: none; }
+.boton small { display: block; font-weight: 400; font-size: 13px; color: var(--tinta-suave); }
+.boton .flecha { margin-left: auto; width: 18px; height: 18px; opacity: .55; }
+.boton.wa { color: #fff; border: 0; background: linear-gradient(135deg, #8b5cf6, #6d3fe0 55%, #e98bb3); }
+.boton.wa small { color: rgba(255,255,255,.85); }
+.boton.wa::after { content: ""; position: absolute; inset: -4px; border-radius: 24px; border: 2px solid rgba(139,92,246,.55); animation: late 2.4s ease-out infinite; pointer-events: none; }
+@keyframes late { from { transform: scale(.97); opacity: 1; } to { transform: scale(1.08); opacity: 0; } }
+footer { margin-top: 44px; font-size: 13px; color: var(--tinta-suave); }
+footer b { font-family: "Cormorant Garamond", serif; font-size: 20px; color: var(--tinta); font-weight: 600; }
+
+/* ============ VISOR ============ */
+.visor { position: fixed; inset: 0; z-index: 60; background: rgba(20,13,34,.94); display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 16px; opacity: 0; pointer-events: none; transition: opacity .35s ease; }
+.visor.abierto { opacity: 1; pointer-events: auto; }
+.visor img { max-width: 100%; max-height: 76vh; border-radius: 16px; transform: scale(.94); transition: transform .45s var(--muelle); }
+.visor.abierto img { transform: scale(1); }
+.visor p { color: #fff; margin: 16px 0 0; text-align: center; max-width: 36ch; }
+.visor button { position: absolute; width: 46px; height: 46px; border: 0; border-radius: 50%; background: rgba(255,255,255,.14); color: #fff; font-size: 24px; cursor: pointer; }
+.visor .cerrar { top: max(16px, env(safe-area-inset-top)); right: 16px; }
+.visor .ant { left: 10px; top: 50%; } .visor .sig { right: 10px; top: 50%; }
+
+/* ===== la mascota (de la app) ===== */
+/* Mascota regalito: balanceo (inclinada hacia la izquierda, como mirando los
+   contenedores desde arriba), parpadeo, deriva de pupilas y lazo que se mueve. */
+@keyframes mascota-sway {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  25% { transform: translateY(-3px) rotate(-11deg); }
+  50% { transform: translateY(-5px) rotate(-4deg); }
+  75% { transform: translateY(-2px) rotate(-9deg); }
+}
+.mascota {
+  /* Curva asimetrica en vez de ease-in-out: sube distinto a como baja, que es
+     lo que hace que no parezca un pendulo. */
+  animation: mascota-sway 5.3s cubic-bezier(0.42, 0, 0.4, 1) infinite;
+  transform-origin: bottom center;
+}
+
+/* Respiracion: va en el envoltorio (no en .mascota) porque los dos animan
+   `transform` y se pisarian. Periodo primo con el del balanceo, para que la
+   combinacion no se repita cada dos por tres. */
+@keyframes mascota-respira {
+  0%, 100% { transform: scale(1, 1); }
+  50% { transform: scale(1.028, 0.972); }
+}
+.mascota-respira {
+  display: inline-block;
+  transform-origin: bottom center;
+  animation: mascota-respira 3.7s ease-in-out infinite;
+}
+/* Parpadeo. Antes era uno cada 3,6 s clavado, y esa regularidad es justo lo
+   que delata que es un dibujo. Ahora el ciclo es largo, cierra RAPIDO y abre
+   mas lento (como un ojo de verdad) y de vez en cuando parpadea dos veces. */
+@keyframes parpadeo {
+  0%, 40%, 100% { transform: scaleY(1); }
+  42% { transform: scaleY(0.08); }
+  45.5% { transform: scaleY(1); }
+  85% { transform: scaleY(1); }
+  86.5% { transform: scaleY(0.08); }
+  89% { transform: scaleY(1); }
+  91% { transform: scaleY(0.08); }
+  94% { transform: scaleY(1); }
+}
+.reg-ojos {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: parpadeo 7.4s ease-out infinite;
+}
+/* La mirada. El ojo no deriva suave: da saltos rapidos (sacadas) y se queda
+   quieto un rato. Por eso los cambios ocupan poquisimo porcentaje y las pausas
+   mucho. */
+@keyframes mascota-mirar {
+  0%, 28% { transform: translate(-1px, 1px); }
+  30%, 46% { transform: translate(-2.6px, 0.6px); }
+  48%, 58% { transform: translate(1.6px, 1px); }
+  60%, 82% { transform: translate(-1px, 1px); }
+  84%, 92% { transform: translate(-2px, 1.6px); }
+  94%, 100% { transform: translate(-1px, 1px); }
+}
+.mascota-pupilas {
+  animation: mascota-mirar 8.3s cubic-bezier(0.2, 0.9, 0.2, 1) infinite;
+}
+@keyframes mascota-lazo {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(5deg); }
+}
+.mascota-lazo {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: mascota-lazo 3s ease-in-out infinite;
+}
+/* Bracitos: el izquierdo saluda, el derecho se mece */
+/* Saludar SIN PARAR es lo mas robotico que tenia: nadie agita el brazo cinco
+   minutos seguidos. Ahora saluda un par de veces y descansa. */
+@keyframes mascota-saluda {
+  0%, 58%, 100% { transform: rotate(6deg); }
+  64% { transform: rotate(-26deg); }
+  71% { transform: rotate(2deg); }
+  78% { transform: rotate(-22deg); }
+  86% { transform: rotate(6deg); }
+}
+.mascota-brazo-izq {
+  transform-box: fill-box;
+  transform-origin: 88% 18%;
+  animation: mascota-saluda 6.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+@keyframes mascota-brazo-mece {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(13deg); }
+}
+.mascota-brazo-der {
+  transform-box: fill-box;
+  transform-origin: 12% 18%;
+  animation: mascota-brazo-mece 2.6s ease-in-out infinite;
+}
+/* Patitas: balanceo alternado */
+@keyframes mascota-pata-a {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-1.5px) rotate(-7deg); }
+}
+@keyframes mascota-pata-b {
+  0%, 100% { transform: translateY(-1.5px) rotate(7deg); }
+  50% { transform: translateY(0) rotate(0); }
+}
+/* Duraciones distintas (1,3 y 1,47) a proposito: si las dos van al mismo
+   compas parece un juguete de cuerda. Asi se van desfasando solas. */
+.mascota-pata-izq {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: mascota-pata-a 1.3s ease-in-out infinite;
+}
+.mascota-pata-der {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: mascota-pata-b 1.47s ease-in-out infinite;
+}
+
+/* --------------------------------------------------------------------------
+   MAS MOVIMIENTO (y el que de verdad vende el volumen)
+   --------------------------------------------------------------------------
+   Todo lo de abajo anima SOLO `transform` y `opacity`, que son las dos cosas
+   que el navegador resuelve en la GPU sin volver a pintar nada. Con eso, el
+   bicho entero se mueve por menos de lo que cuesta un `filter`.
+
+   Cada pieza va a su compas y con periodos que no son multiplos entre si
+   (3,7 · 4,9 · 6,1 · 9,3 · 11 s): asi la combinacion tarda minutos en
+   repetirse y nunca se ve el bucle. Es la diferencia entre "esta vivo" y
+   "esta en bucle".
+   -------------------------------------------------------------------------- */
+
+/* LA SOMBRA DEL SUELO RESPIRA CON EL. Va al reves que el cuerpo: cuando el
+   cuerpo se aplasta (y por tanto baja), la sombra se agranda y se oscurece.
+   Sin esto la sombra es una calcomania pegada al suelo. */
+@keyframes mascota-suelo {
+  0%,
+  100% {
+    transform: scale(1, 1);
+    opacity: 0.88;
   }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg: #17120f; --surface: #221b16; --fg: #f4ece4; --muted: #b3a597; --line: #3a2f27;
-      --lila-soft: #2c2140; --lila-fg: #cbb5ff; --sombra: 0 10px 30px -12px rgba(0, 0, 0, .6); }
+  50% {
+    transform: scale(1.06, 1.1);
+    opacity: 1;
   }
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 Inter, system-ui, sans-serif; }
-  .aura-fondo { position: fixed; inset: 0; z-index: -1; pointer-events: none;
-    background: radial-gradient(60% 40% at 15% 0%, rgba(139, 92, 246, .22), transparent 70%),
-                radial-gradient(50% 35% at 100% 10%, rgba(236, 160, 120, .22), transparent 70%); }
-  main { max-width: 980px; margin: 0 auto; padding: 0 16px 48px; }
+}
+.mascota-suelo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mascota-suelo 3.7s ease-in-out infinite;
+}
 
-  header { text-align: center; padding: 48px 8px 8px; }
-  .marca { width: 76px; height: 76px; margin: 0 auto 16px; border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #fff 0 8%, #c4a8ff 30%, #8b5cf6 62%, #5b34c4 100%);
-    box-shadow: 0 0 0 8px var(--lila-soft), 0 12px 40px -6px rgba(139, 92, 246, .6); }
-  h1 { font: 700 clamp(30px, 8vw, 46px)/1.1 Sora, sans-serif; margin: 0; letter-spacing: -.02em; }
-  .lema { margin: 10px auto 0; max-width: 34ch; color: var(--muted); font-size: 17px; }
+/* Y AL SALTAR SE ENCOGE. Mismos porcentajes que `mascota-salta` (0,72 s): se
+   agacha, despega, y mientras esta arriba la sombra casi desaparece. Es EL
+   detalle que convierte un objeto que sube y baja en un objeto que salta. */
+@keyframes mascota-suelo-salta {
+  0% {
+    transform: scale(1, 1);
+    opacity: 0.9;
+  }
+  animation: mascota-tapa 9.3s cubic-bezier(0.3, 0.8, 0.3, 1) infinite;
+}
 
-  .quienes { margin: 28px auto 0; max-width: 620px; background: var(--surface); border: 1px solid var(--line);
-    border-radius: 22px; padding: 20px 22px; box-shadow: var(--sombra); }
-  .quienes h2 { font: 600 13px/1 Sora, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--lila-fg); margin: 0 0 10px; }
-  .quienes p { margin: 0 0 8px; }
-  .quienes p:last-child { margin: 0; }
+/* EL BRILLO SE MUEVE. Una superficie satinada de verdad no tiene el reflejo
+   clavado: se desplaza un poco cuando el objeto se mueve. Lento y minimo — si
+   se nota, esta mal. */
+@keyframes mascota-brillo {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  35% {
+    transform: translate(2px, -1px) scale(1.08);
+    opacity: 0.85;
+  }
+  70% {
+    transform: translate(-1.5px, 0.8px) scale(0.94);
+    opacity: 1;
+  }
+}
+.mascota-brillo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mascota-brillo 11s ease-in-out infinite;
+}
 
-  .botones { display: grid; gap: 10px; max-width: 620px; margin: 18px auto 0; }
-  .boton { display: flex; align-items: center; gap: 12px; padding: 15px 18px; border-radius: 16px; text-decoration: none;
-    font-weight: 600; color: var(--fg); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--sombra);
-    transition: transform .15s ease; }
-  .boton:active { transform: scale(.98); }
-  .boton svg { width: 24px; height: 24px; flex: none; }
-  .boton span small { display: block; font-weight: 400; color: var(--muted); font-size: 13px; }
-  .boton.wa { background: var(--verde); color: #fff; border-color: transparent; }
-  .boton.wa span small { color: rgba(255, 255, 255, .85); }
-  .boton .flecha { margin-left: auto; opacity: .5; }
+/* LAS CEJAS SE LEVANTAN un poco de vez en cuando. Es un tic minusculo y es de
+   lo que mas vida da: una cara con las cejas clavadas parece una mascara. */
+@keyframes mascota-cejas {
+  0%,
+  70%,
+  100% {
+    transform: translateY(0);
+  }
+  76% {
+    transform: translateY(-0.9px);
+  }
+  84% {
+    transform: translateY(-0.3px);
+  }
+}
+.mascota-cejas {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mascota-cejas 7.7s ease-in-out infinite;
+}
 
-  .galeria-titulo { text-align: center; margin: 44px 0 6px; font: 600 24px/1.2 Sora, sans-serif; }
-  .galeria-sub { text-align: center; color: var(--muted); margin: 0 0 18px; }
-  .galeria { columns: 2; column-gap: 10px; }
-  @media (min-width: 700px) { .galeria { columns: 3; column-gap: 14px; } }
-  .foto { break-inside: avoid; margin: 0 0 10px; border-radius: 16px; overflow: hidden; position: relative;
-    background: var(--surface); box-shadow: var(--sombra); cursor: zoom-in; display: block; width: 100%; padding: 0; border: 0; }
-  .foto img { display: block; width: 100%; height: auto; }
-  .foto figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 12px 10px; color: #fff; font-size: 13px; font-weight: 500;
-    text-align: left; background: linear-gradient(transparent, rgba(0, 0, 0, .6)); }
-  .relleno { aspect-ratio: var(--r, 4/5); display: grid; place-items: center; color: var(--lila-fg); font: 600 14px Sora, sans-serif;
-    background: linear-gradient(135deg, var(--lila-soft), #f3e3d6); }
+/* LOS CACHETES LATEN, cada uno a su aire (el segundo con retardo). */
+@keyframes mascota-cachete {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.14);
+  }
+}
+.mascota-cachete {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mascota-cachete 4.9s ease-in-out infinite;
+}
+.mascota-cachete-b {
+  animation-delay: 0.6s;
+}
 
-  footer { text-align: center; color: var(--muted); font-size: 14px; margin-top: 36px; }
-  footer b { color: var(--fg); }
+/* CHISPAS. Se encienden por turnos, una cada vez, y el resto del ciclo no
+   existen. Lo unico que se sale del cuerpo: es lo que le da aura propia en vez
+   de parecer pegado al fondo. */
+@keyframes mascota-chispa {
+  0%,
+  74%,
+  100% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1) rotate(35deg);
+    opacity: 0.9;
+  }
+  86% {
+    transform: scale(0.7) rotate(60deg);
+    opacity: 0.5;
+  }
+  92% {
+    transform: scale(0) rotate(90deg);
+    opacity: 0;
+  }
+}
+.mascota-chispa {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mascota-chispa 6.1s ease-out infinite;
+}
 
-  .visor { position: fixed; inset: 0; z-index: 10; background: rgba(10, 8, 6, .92); display: none; flex-direction: column;
-    align-items: center; justify-content: center; padding: 16px; }
-  .visor.abierto { display: flex; }
-  .visor img { max-width: 100%; max-height: 78vh; border-radius: 12px; }
-  .visor p { color: #fff; margin: 14px 0 0; text-align: center; max-width: 40ch; }
-  .visor button { position: absolute; background: rgba(255, 255, 255, .14); color: #fff; border: 0; width: 46px; height: 46px;
-    border-radius: 50%; font-size: 24px; cursor: pointer; }
-  .visor .cerrar { top: 16px; right: 16px; }
-  .visor .ant { left: 12px; top: 50%; } .visor .sig { right: 12px; top: 50%; }
+/* Salto al tocar/click */
+/* Salto con las tres partes que lo hacen leerse como un salto: se AGACHA
+   antes (anticipacion), se ESTIRA al subir y se APLASTA al caer. Sin eso solo
+   es un objeto que sube y baja. */
+@keyframes mascota-salta {
+  0% { transform: translateY(0) scale(1, 1) rotate(0); }
+  12% { transform: translateY(2px) scale(1.1, 0.9) rotate(0); }
+  38% { transform: translateY(-17px) scale(0.92, 1.12) rotate(-7deg); }
+  58% { transform: translateY(0) scale(1.12, 0.88) rotate(3deg); }
+  74% { transform: translateY(-6px) scale(0.98, 1.04) rotate(-2deg); }
+  88% { transform: translateY(0) scale(1.04, 0.96) rotate(1deg); }
+  100% { transform: translateY(0) scale(1, 1) rotate(0); }
+}
+.mascota-salta {
+  display: inline-block;
+  transform-origin: bottom center;
+  animation: mascota-salta 0.72s cubic-bezier(0.3, 0.9, 0.4, 1);
+}
+/* Deditos: leve aleteo de la manita que saluda */
+@keyframes mascota-deditos {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-9deg); }
+}
+.mascota-deditos {
+  transform-origin: 8px 45px;
+  animation: mascota-deditos 0.9s ease-in-out infinite;
+}
+
+/* Nubecita de pensamiento (liquid glass): sale del "pensamiento" de la mascota,
+   aparece con un pop suave y se desvanece despacio (fase .is-out). */
+@keyframes nube-in {
+  0% { opacity: 0; transform: translateY(6px) scale(0.7); }
+  60% { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .bokeh span, .chispa, .hero-bajar svg, .boton.wa::after { animation: none; }
+}
 </style>
 </head>
 <body>
-<div class="aura-fondo"></div>
-<main>
-  <header>
-    <div class="marca" aria-hidden="true"></div>
-    <h1>Aura by Karli</h1>
-    <p class="lema">Regalos, arreglos y detalles hechos con cariño en La Habana.</p>
-  </header>
+<div id="barra"></div>
 
-  <section class="quienes">
-    <h2>Quiénes somos</h2>
-    <p>Somos una familia que convierte un encargo en un recuerdo. Nuestras rosas están hechas a mano con cinta de satén, una a una, y no se marchitan nunca: el regalo dura para siempre.</p>
-    <p>Armamos ramos, cajas sorpresa y arreglos con peluches, globos personalizados y dulces para cumpleaños, aniversarios, San Valentín o simplemente para decir «te quiero». Cada uno es a la medida, y lo llevamos hasta la puerta en toda La Habana.</p>
-  </section>
+<section class="hero" id="hero">
+  <div class="bokeh" aria-hidden="true">
+    <span style="--c:rgba(203,183,246,.8); width:220px; height:220px; left:-60px; top:8%; --t:16s; --dx:30px; --dy:40px"></span>
+    <span style="--c:rgba(246,192,214,.75); width:150px; height:150px; right:-30px; top:14%; --t:12s; --dx:-24px; --dy:30px"></span>
+    <span style="--c:rgba(255,255,255,.9); width:90px; height:90px; left:12%; bottom:20%; --t:10s; --dx:20px; --dy:-26px"></span>
+    <span style="--c:rgba(157,127,228,.55); width:260px; height:260px; right:-90px; bottom:-40px; --t:18s; --dx:-30px; --dy:-20px"></span>
+    <span style="--c:rgba(246,192,214,.6); width:70px; height:70px; left:58%; top:6%; --t:9s; --dx:14px; --dy:22px"></span>
+    <span style="--c:rgba(226,214,252,.9); width:120px; height:120px; left:30%; bottom:-30px; --t:13s; --dx:-18px; --dy:-30px"></span>
+  </div>
+  <svg class="chispa" style="left:18%; top:22%; --t:2.8s" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z"/></svg>
+  <svg class="chispa" style="right:16%; top:30%; --t:3.4s; --d:.8s" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z"/></svg>
+  <svg class="chispa" style="left:24%; bottom:26%; --t:3.1s; --d:1.5s; width:12px; height:12px" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12Z"/></svg>
+  <div class="hero-velo" aria-hidden="true"></div>
+  <div class="hero-centro">
+    <div class="hero-mascota"><div class="mascota"><div class="mascota-respira"><svg aria-hidden="true" viewBox="0 0 64 64" fill="none"><defs><linearGradient id="a-m-cuerpo" x1="15" y1="27" x2="51" y2="56" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#e6dcff"></stop><stop offset="0.42" stop-color="#ac81f8"></stop><stop offset="1" stop-color="#7c3aed"></stop></linearGradient><linearGradient id="a-m-tapa" x1="10" y1="18" x2="48" y2="30" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f6f1ff"></stop><stop offset="0.5" stop-color="#c1a4fb"></stop><stop offset="1" stop-color="#8b5cf6"></stop></linearGradient><radialGradient id="a-m-brillo" cx="0.32" cy="0.26" r="0.62"><stop offset="0" stop-color="#ffffff" stop-opacity="0.6"></stop><stop offset="0.55" stop-color="#ffffff" stop-opacity="0.12"></stop><stop offset="1" stop-color="#ffffff" stop-opacity="0"></stop></radialGradient><linearGradient id="a-m-sombra" x1="24" y1="32" x2="52" y2="56" gradientUnits="userSpaceOnUse"><stop offset="0.4" stop-color="#6d28d9" stop-opacity="0"></stop><stop offset="1" stop-color="#6d28d9" stop-opacity="0.42"></stop></linearGradient><linearGradient id="a-m-juntura" x1="0" y1="27" x2="0" y2="36" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5b21b6" stop-opacity="0.4"></stop><stop offset="1" stop-color="#5b21b6" stop-opacity="0"></stop></linearGradient><linearGradient id="a-m-cinta" x1="29.2" y1="0" x2="34.8" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#c9b0fb"></stop><stop offset="0.34" stop-color="#f3edff"></stop><stop offset="1" stop-color="#9061f9"></stop></linearGradient><linearGradient id="a-m-cinta-h" x1="0" y1="29.6" x2="0" y2="33.4" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#c9b0fb"></stop><stop offset="0.34" stop-color="#f3edff"></stop><stop offset="1" stop-color="#9061f9"></stop></linearGradient><linearGradient id="a-m-lazo" x1="14" y1="2" x2="50" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f6f1ff"></stop><stop offset="0.48" stop-color="#c9b0fb"></stop><stop offset="1" stop-color="#8b5cf6"></stop></linearGradient><linearGradient id="a-m-lazo-dentro" x1="20" y1="6" x2="44" y2="20" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9061f9"></stop><stop offset="1" stop-color="#6d28d9"></stop></linearGradient><radialGradient id="a-m-esfera" cx="0.34" cy="0.3" r="0.78"><stop offset="0" stop-color="#f3edff"></stop><stop offset="0.5" stop-color="#ac81f8"></stop><stop offset="1" stop-color="#7c3aed"></stop></radialGradient><radialGradient id="a-m-cachete" cx="0.4" cy="0.35" r="0.65"><stop offset="0" stop-color="#fcd6ee"></stop><stop offset="1" stop-color="#f191d4"></stop></radialGradient><radialGradient id="a-m-iris" cx="0.5" cy="0.72" r="0.72"><stop offset="0" stop-color="#a9713f"></stop><stop offset="0.55" stop-color="#6b3f22"></stop><stop offset="1" stop-color="#331a10"></stop></radialGradient><linearGradient id="a-m-parpado" x1="0" y1="36" x2="0" y2="44" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#6d28d9" stop-opacity="0.3"></stop><stop offset="1" stop-color="#6d28d9" stop-opacity="0"></stop></linearGradient><radialGradient id="a-m-halo" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#a78bfa" stop-opacity="0.34"></stop><stop offset="0.55" stop-color="#8b5cf6" stop-opacity="0.13"></stop><stop offset="1" stop-color="#8b5cf6" stop-opacity="0"></stop></radialGradient><radialGradient id="a-m-suelo" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#3b0764" stop-opacity="0.38"></stop><stop offset="0.6" stop-color="#3b0764" stop-opacity="0.14"></stop><stop offset="1" stop-color="#3b0764" stop-opacity="0"></stop></radialGradient><radialGradient id="a-m-contacto" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#1e0740" stop-opacity="0.5"></stop><stop offset="0.55" stop-color="#1e0740" stop-opacity="0.22"></stop><stop offset="1" stop-color="#1e0740" stop-opacity="0"></stop></radialGradient><clipPath id="a-m-corte-caja"><rect x="13" y="27" width="38" height="27" rx="9"></rect></clipPath><clipPath id="a-m-corte-tapa"><rect x="8" y="19" width="48" height="11" rx="5"></rect></clipPath></defs><g class="mascota-suelo"><ellipse cx="32" cy="60.4" rx="22" ry="5" fill="url(#a-m-halo)"></ellipse><ellipse cx="32" cy="60.8" rx="16" ry="3.4" fill="url(#a-m-suelo)"></ellipse><ellipse cx="32" cy="61.2" rx="10" ry="2" fill="url(#a-m-contacto)"></ellipse></g><g class="mascota-pata-izq"><rect x="22.4" y="49" width="5.4" height="9" rx="2.7" fill="#8b5cf6"></rect><rect x="22.4" y="49" width="2.2" height="9" rx="1.1" fill="#ddd0ff" opacity="0.45"></rect><ellipse cx="24.4" cy="59.2" rx="4.4" ry="2.7" fill="url(#a-m-esfera)"></ellipse></g><g class="mascota-pata-der"><rect x="36.2" y="49" width="5.4" height="9" rx="2.7" fill="#7c3aed"></rect><rect x="36.2" y="49" width="2" height="9" rx="1" fill="#c9b0fb" opacity="0.34"></rect><ellipse cx="39.6" cy="59.2" rx="4.4" ry="2.7" fill="url(#a-m-esfera)"></ellipse></g><g class="mascota-brazo-izq"><path d="M15 37 Q 8.5 39.5 8 44" stroke="#8b5cf6" stroke-width="2.9" fill="none" stroke-linecap="round"></path><path d="M15.4 36.8 Q 12.6 37.8 11 39.2" stroke="#8b5cf6" stroke-width="4.1" fill="none" stroke-linecap="round"></path><path d="M14.8 36.1 Q 9 39 8.6 43.2" stroke="#ece4ff" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.45"></path><g class="mascota-deditos"><ellipse cx="5.9" cy="42.6" rx="1.15" ry="1.6" transform="rotate(-24 5.9 42.6)" fill="url(#a-m-esfera)"></ellipse><ellipse cx="8.15" cy="41.8" rx="1.2" ry="1.75" fill="url(#a-m-esfera)"></ellipse><ellipse cx="10.3" cy="42.7" rx="1.1" ry="1.55" transform="rotate(22 10.3 42.7)" fill="url(#a-m-esfera)"></ellipse></g><ellipse cx="4.6" cy="45.9" rx="1.45" ry="1.15" transform="rotate(-20 4.6 45.9)" fill="url(#a-m-esfera)"></ellipse><ellipse cx="8" cy="45.4" rx="3.4" ry="3.1" fill="url(#a-m-esfera)"></ellipse></g><g class="mascota-brazo-der"><path d="M49 37 Q 55.5 39.5 56 44" stroke="#7c3aed" stroke-width="2.9" fill="none" stroke-linecap="round"></path><path d="M48.6 36.8 Q 51.4 37.8 53 39.2" stroke="#7c3aed" stroke-width="4.1" fill="none" stroke-linecap="round"></path><g><ellipse cx="54.1" cy="42.9" rx="1.05" ry="1.45" transform="rotate(-16 54.1 42.9)" fill="url(#a-m-esfera)"></ellipse><ellipse cx="56" cy="42.3" rx="1.1" ry="1.55" fill="url(#a-m-esfera)"></ellipse><ellipse cx="57.9" cy="43" rx="1" ry="1.4" transform="rotate(15 57.9 43)" fill="url(#a-m-esfera)"></ellipse></g><ellipse cx="59.3" cy="45.9" rx="1.4" ry="1.1" transform="rotate(20 59.3 45.9)" fill="url(#a-m-esfera)"></ellipse><ellipse cx="56" cy="45.4" rx="3.4" ry="3.1" fill="url(#a-m-esfera)"></ellipse></g><g clip-path="url(#a-m-corte-caja)"><rect x="13" y="27" width="38" height="27" rx="9" fill="url(#a-m-cuerpo)"></rect><rect x="13" y="27" width="38" height="27" fill="url(#a-m-sombra)"></rect><ellipse class="mascota-brillo" cx="23" cy="36" rx="12" ry="9" fill="url(#a-m-brillo)"></ellipse><rect x="13" y="27" width="38" height="9" fill="url(#a-m-juntura)"></rect><rect x="48.6" y="27" width="2.4" height="27" fill="#f3edff" opacity="0.26"></rect><rect x="13" y="51.6" width="38" height="2.4" fill="#e6dcff" opacity="0.16"></rect><rect x="13" y="29.6" width="38" height="3.8" fill="url(#a-m-cinta-h)" opacity="0.9"></rect><rect x="13" y="32.8" width="38" height="0.8" fill="#5b21b6" opacity="0.22"></rect></g><g clip-path="url(#a-m-corte-tapa)"><rect x="8" y="19" width="48" height="11" rx="5" fill="url(#a-m-tapa)"></rect><rect x="8" y="19" width="48" height="2.6" fill="#ffffff" opacity="0.3"></rect><ellipse cx="21" cy="22.5" rx="10" ry="4" fill="url(#a-m-brillo)"></ellipse><rect x="8" y="26.6" width="48" height="3.4" fill="#5b21b6" opacity="0.2"></rect></g><rect x="29.2" y="19" width="5.6" height="11" fill="url(#a-m-cinta)" opacity="0.92"></rect><rect x="29.2" y="30" width="5.6" height="24" fill="url(#a-m-cinta)" opacity="0.3"></rect><rect x="34.2" y="19" width="1" height="35" fill="#5b21b6" opacity="0.16"></rect><g class="mascota-lazo"><path d="M31 18 C 27 19.5, 24.5 22.5, 25.5 24.5 C 26.4 26.2, 29 25.4, 30.6 23" fill="url(#a-m-lazo)"></path><path d="M31 18 C 27 19.5, 24.5 22.5, 25.5 24.5 C 26.4 26.2, 29 25.4, 30.6 23" fill="url(#a-m-lazo-dentro)" opacity="0.28"></path><path d="M33 18 C 37 19.5, 39.5 22.5, 38.5 24.5 C 37.6 26.2, 35 25.4, 33.4 23" fill="url(#a-m-lazo)"></path><path d="M33 18 C 37 19.5, 39.5 22.5, 38.5 24.5 C 37.6 26.2, 35 25.4, 33.4 23" fill="url(#a-m-lazo-dentro)" opacity="0.4"></path><path d="M32 17.5 C 24 3, 11 7.5, 18.5 17.8 C 21.5 21.5, 28.5 20.5, 32 17.5 Z" fill="url(#a-m-lazo)"></path><path d="M32 17.5 C 40 3, 53 7.5, 45.5 17.8 C 42.5 21.5, 35.5 20.5, 32 17.5 Z" fill="url(#a-m-lazo)"></path><path d="M32 17.5 C 27 9.5, 19.5 10, 19.6 16.4 C 22.5 19.6, 28.5 19.6, 32 17.5 Z" fill="url(#a-m-lazo-dentro)" opacity="0.35"></path><path d="M32 17.5 C 37 9.5, 44.5 10, 44.4 16.4 C 41.5 19.6, 35.5 19.6, 32 17.5 Z" fill="url(#a-m-lazo-dentro)" opacity="0.45"></path><circle cx="32" cy="17.6" r="3.9" fill="url(#a-m-esfera)"></circle><circle cx="30.7" cy="16.3" r="1.35" fill="#ffffff" opacity="0.62"></circle></g><ellipse class="mascota-cachete" cx="18.4" cy="46.2" rx="2.9" ry="2.2" fill="url(#a-m-cachete)" opacity="0.72"></ellipse><ellipse class="mascota-cachete mascota-cachete-b" cx="45.6" cy="46.2" rx="2.9" ry="2.2" fill="url(#a-m-cachete)" opacity="0.72"></ellipse><g class="mascota-cejas" stroke="#5b21b6" stroke-width="1.45" fill="none" stroke-linecap="round"><path d="M21 35.10 Q25 32.90 29 35.4"></path><path d="M35 34.90 Q39 32.90 43 35.6"></path></g><g class="reg-ojos"><ellipse cx="25" cy="41.8" rx="5" ry="5" fill="#ffffff"></ellipse><ellipse cx="39" cy="41.8" rx="5" ry="5" fill="#ffffff"></ellipse><ellipse cx="25" cy="41.8" rx="5" ry="5" fill="url(#a-m-parpado)"></ellipse><ellipse cx="39" cy="41.8" rx="5" ry="5" fill="url(#a-m-parpado)"></ellipse><g class="mascota-pupilas"><circle cx="25.4" cy="42.4" r="3.4" fill="url(#a-m-iris)"></circle><circle cx="39.4" cy="42.4" r="3.4" fill="url(#a-m-iris)"></circle><circle cx="25.4" cy="42.4" r="1.75" fill="#26131f"></circle><circle cx="39.4" cy="42.4" r="1.75" fill="#26131f"></circle><circle cx="23.8" cy="40.6" r="1.5" fill="#ffffff"></circle><circle cx="37.8" cy="40.6" r="1.5" fill="#ffffff"></circle><circle cx="26.8" cy="44" r="0.75" fill="#ffffff" opacity="0.6"></circle><circle cx="40.8" cy="44" r="0.75" fill="#ffffff" opacity="0.6"></circle></g></g><path d="M27.4 47.6 Q32 48.8 36.6 47.6 Q36 52.6 32 52.6 Q28 52.6 27.4 47.6 Z" fill="#4a1330"></path><path d="M29.4 50.6 Q32 49.2 34.6 50.6 Q34.2 52.6 32 52.6 Q29.8 52.6 29.4 50.6 Z" fill="#f4779f"></path><g fill="#ede9fe"><path class="mascota-chispa" d="M6.5 22 L7.4 24.4 L9.8 25.3 L7.4 26.2 L6.5 28.6 L5.6 26.2 L3.2 25.3 L5.6 24.4 Z"></path><path class="mascota-chispa" style="animation-delay:1.9s" d="M58.5 20 L59.2 21.9 L61.1 22.6 L59.2 23.3 L58.5 25.2 L57.8 23.3 L55.9 22.6 L57.8 21.9 Z"></path><path class="mascota-chispa" style="animation-delay:3.6s" d="M55 54 L55.7 55.9 L57.6 56.6 L55.7 57.3 L55 59.2 L54.3 57.3 L52.4 56.6 L54.3 55.9 Z"></path></g></svg></div></div></div>
+    <h1 class="hero-titulo"><span class="aura" id="aura">Aura</span><span class="karli">by Karli</span></h1>
+    <p class="hero-lema">Regalos hechos a mano que duran para siempre</p>
+  </div>
+  <div class="hero-bajar">Desliza
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+</section>
 
+<section class="manifiesto">
+  <p class="manifiesto-texto" id="manifiesto">Cada rosa nace en nuestras manos, pétalo a pétalo, con cinta de satén. No se marchita. Por eso un regalo de Aura no se tira: <em>se guarda.</em></p>
+</section>
+
+<section class="zoom" id="zoom">
+  <div class="zoom-marco"><img src="fotos/04.jpg" alt="Ramo de rosas rojas con corona" width="900" height="1200"></div>
+  <div class="zoom-texto"><h2>Rosas eternas</h2><p>Rojas, rosadas, azules, lilas… del color que quieras y del tamaño que imagines.</p></div>
+</section>
+
+<section class="mazo" id="mazo">
+  <p class="rotulo">Lo que hacemos</p>
+  <h2>Hecho para ti</h2>
+  <div class="mazo-cartas">
+    <figure class="carta"><img src="fotos/08.jpg" alt="Ramo azul con mariposa y amigurumi" loading="lazy" width="900" height="1200"></figure>
+    <figure class="carta"><img src="fotos/02.jpg" alt="Caja con peluche, globo y ramo" loading="lazy" width="1150" height="1200"></figure>
+    <figure class="carta"><img src="fotos/01.jpg" alt="Globo personalizado con peluche y dulces" loading="lazy" width="808" height="1080"></figure>
+  </div>
+  <div class="mazo-puntos" aria-hidden="true"><i class="activo"></i><i></i><i></i></div>
+  <div class="mazo-textos">
+    <div class="mazo-texto"><h3>Ramos</h3><p>Rosas eternas con mariposas, perlas y cintas con su nombre.</p></div>
+    <div class="mazo-texto"><h3>Cajas sorpresa</h3><p>Peluches, chocolates y detalles, todo en una caja con lazo.</p></div>
+    <div class="mazo-texto"><h3>Arreglos a la medida</h3><p>Globos personalizados, cestas y combinaciones pensadas para esa persona.</p></div>
+  </div>
+</section>
+
+<section class="galeria" id="galeria">
+  <div class="galeria-cabeza"><p class="rotulo">Nuestro trabajo</p><h2>Cada uno, único</h2><p>Toca una foto para verla en grande</p></div>
+  <div class="pista" id="pista"></div>
+</section>
+
+<section class="final" id="final">
+  <div class="final-mascota">
+    <div class="nube" id="nube">¡Hagamos el tuyo!</div>
+    <div class="mascota"><div class="mascota-respira"><svg aria-hidden="true" viewBox="0 0 64 64" fill="none"><defs><linearGradient id="b-m-cuerpo" x1="15" y1="27" x2="51" y2="56" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#e6dcff"></stop><stop offset="0.42" stop-color="#ac81f8"></stop><stop offset="1" stop-color="#7c3aed"></stop></linearGradient><linearGradient id="b-m-tapa" x1="10" y1="18" x2="48" y2="30" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f6f1ff"></stop><stop offset="0.5" stop-color="#c1a4fb"></stop><stop offset="1" stop-color="#8b5cf6"></stop></linearGradient><radialGradient id="b-m-brillo" cx="0.32" cy="0.26" r="0.62"><stop offset="0" stop-color="#ffffff" stop-opacity="0.6"></stop><stop offset="0.55" stop-color="#ffffff" stop-opacity="0.12"></stop><stop offset="1" stop-color="#ffffff" stop-opacity="0"></stop></radialGradient><linearGradient id="b-m-sombra" x1="24" y1="32" x2="52" y2="56" gradientUnits="userSpaceOnUse"><stop offset="0.4" stop-color="#6d28d9" stop-opacity="0"></stop><stop offset="1" stop-color="#6d28d9" stop-opacity="0.42"></stop></linearGradient><linearGradient id="b-m-juntura" x1="0" y1="27" x2="0" y2="36" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5b21b6" stop-opacity="0.4"></stop><stop offset="1" stop-color="#5b21b6" stop-opacity="0"></stop></linearGradient><linearGradient id="b-m-cinta" x1="29.2" y1="0" x2="34.8" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#c9b0fb"></stop><stop offset="0.34" stop-color="#f3edff"></stop><stop offset="1" stop-color="#9061f9"></stop></linearGradient><linearGradient id="b-m-cinta-h" x1="0" y1="29.6" x2="0" y2="33.4" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#c9b0fb"></stop><stop offset="0.34" stop-color="#f3edff"></stop><stop offset="1" stop-color="#9061f9"></stop></linearGradient><linearGradient id="b-m-lazo" x1="14" y1="2" x2="50" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f6f1ff"></stop><stop offset="0.48" stop-color="#c9b0fb"></stop><stop offset="1" stop-color="#8b5cf6"></stop></linearGradient><linearGradient id="b-m-lazo-dentro" x1="20" y1="6" x2="44" y2="20" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9061f9"></stop><stop offset="1" stop-color="#6d28d9"></stop></linearGradient><radialGradient id="b-m-esfera" cx="0.34" cy="0.3" r="0.78"><stop offset="0" stop-color="#f3edff"></stop><stop offset="0.5" stop-color="#ac81f8"></stop><stop offset="1" stop-color="#7c3aed"></stop></radialGradient><radialGradient id="b-m-cachete" cx="0.4" cy="0.35" r="0.65"><stop offset="0" stop-color="#fcd6ee"></stop><stop offset="1" stop-color="#f191d4"></stop></radialGradient><radialGradient id="b-m-iris" cx="0.5" cy="0.72" r="0.72"><stop offset="0" stop-color="#a9713f"></stop><stop offset="0.55" stop-color="#6b3f22"></stop><stop offset="1" stop-color="#331a10"></stop></radialGradient><linearGradient id="b-m-parpado" x1="0" y1="36" x2="0" y2="44" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#6d28d9" stop-opacity="0.3"></stop><stop offset="1" stop-color="#6d28d9" stop-opacity="0"></stop></linearGradient><radialGradient id="b-m-halo" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#a78bfa" stop-opacity="0.34"></stop><stop offset="0.55" stop-color="#8b5cf6" stop-opacity="0.13"></stop><stop offset="1" stop-color="#8b5cf6" stop-opacity="0"></stop></radialGradient><radialGradient id="b-m-suelo" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#3b0764" stop-opacity="0.38"></stop><stop offset="0.6" stop-color="#3b0764" stop-opacity="0.14"></stop><stop offset="1" stop-color="#3b0764" stop-opacity="0"></stop></radialGradient><radialGradient id="b-m-contacto" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#1e0740" stop-opacity="0.5"></stop><stop offset="0.55" stop-color="#1e0740" stop-opacity="0.22"></stop><stop offset="1" stop-color="#1e0740" stop-opacity="0"></stop></radialGradient><clipPath id="b-m-corte-caja"><rect x="13" y="27" width="38" height="27" rx="9"></rect></clipPath><clipPath id="b-m-corte-tapa"><rect x="8" y="19" width="48" height="11" rx="5"></rect></clipPath></defs><g class="mascota-suelo"><ellipse cx="32" cy="60.4" rx="22" ry="5" fill="url(#b-m-halo)"></ellipse><ellipse cx="32" cy="60.8" rx="16" ry="3.4" fill="url(#b-m-suelo)"></ellipse><ellipse cx="32" cy="61.2" rx="10" ry="2" fill="url(#b-m-contacto)"></ellipse></g><g class="mascota-pata-izq"><rect x="22.4" y="49" width="5.4" height="9" rx="2.7" fill="#8b5cf6"></rect><rect x="22.4" y="49" width="2.2" height="9" rx="1.1" fill="#ddd0ff" opacity="0.45"></rect><ellipse cx="24.4" cy="59.2" rx="4.4" ry="2.7" fill="url(#b-m-esfera)"></ellipse></g><g class="mascota-pata-der"><rect x="36.2" y="49" width="5.4" height="9" rx="2.7" fill="#7c3aed"></rect><rect x="36.2" y="49" width="2" height="9" rx="1" fill="#c9b0fb" opacity="0.34"></rect><ellipse cx="39.6" cy="59.2" rx="4.4" ry="2.7" fill="url(#b-m-esfera)"></ellipse></g><g class="mascota-brazo-izq"><path d="M15 37 Q 8.5 39.5 8 44" stroke="#8b5cf6" stroke-width="2.9" fill="none" stroke-linecap="round"></path><path d="M15.4 36.8 Q 12.6 37.8 11 39.2" stroke="#8b5cf6" stroke-width="4.1" fill="none" stroke-linecap="round"></path><path d="M14.8 36.1 Q 9 39 8.6 43.2" stroke="#ece4ff" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.45"></path><g class="mascota-deditos"><ellipse cx="5.9" cy="42.6" rx="1.15" ry="1.6" transform="rotate(-24 5.9 42.6)" fill="url(#b-m-esfera)"></ellipse><ellipse cx="8.15" cy="41.8" rx="1.2" ry="1.75" fill="url(#b-m-esfera)"></ellipse><ellipse cx="10.3" cy="42.7" rx="1.1" ry="1.55" transform="rotate(22 10.3 42.7)" fill="url(#b-m-esfera)"></ellipse></g><ellipse cx="4.6" cy="45.9" rx="1.45" ry="1.15" transform="rotate(-20 4.6 45.9)" fill="url(#b-m-esfera)"></ellipse><ellipse cx="8" cy="45.4" rx="3.4" ry="3.1" fill="url(#b-m-esfera)"></ellipse></g><g class="mascota-brazo-der"><path d="M49 37 Q 55.5 39.5 56 44" stroke="#7c3aed" stroke-width="2.9" fill="none" stroke-linecap="round"></path><path d="M48.6 36.8 Q 51.4 37.8 53 39.2" stroke="#7c3aed" stroke-width="4.1" fill="none" stroke-linecap="round"></path><g><ellipse cx="54.1" cy="42.9" rx="1.05" ry="1.45" transform="rotate(-16 54.1 42.9)" fill="url(#b-m-esfera)"></ellipse><ellipse cx="56" cy="42.3" rx="1.1" ry="1.55" fill="url(#b-m-esfera)"></ellipse><ellipse cx="57.9" cy="43" rx="1" ry="1.4" transform="rotate(15 57.9 43)" fill="url(#b-m-esfera)"></ellipse></g><ellipse cx="59.3" cy="45.9" rx="1.4" ry="1.1" transform="rotate(20 59.3 45.9)" fill="url(#b-m-esfera)"></ellipse><ellipse cx="56" cy="45.4" rx="3.4" ry="3.1" fill="url(#b-m-esfera)"></ellipse></g><g clip-path="url(#b-m-corte-caja)"><rect x="13" y="27" width="38" height="27" rx="9" fill="url(#b-m-cuerpo)"></rect><rect x="13" y="27" width="38" height="27" fill="url(#b-m-sombra)"></rect><ellipse class="mascota-brillo" cx="23" cy="36" rx="12" ry="9" fill="url(#b-m-brillo)"></ellipse><rect x="13" y="27" width="38" height="9" fill="url(#b-m-juntura)"></rect><rect x="48.6" y="27" width="2.4" height="27" fill="#f3edff" opacity="0.26"></rect><rect x="13" y="51.6" width="38" height="2.4" fill="#e6dcff" opacity="0.16"></rect><rect x="13" y="29.6" width="38" height="3.8" fill="url(#b-m-cinta-h)" opacity="0.9"></rect><rect x="13" y="32.8" width="38" height="0.8" fill="#5b21b6" opacity="0.22"></rect></g><g clip-path="url(#b-m-corte-tapa)"><rect x="8" y="19" width="48" height="11" rx="5" fill="url(#b-m-tapa)"></rect><rect x="8" y="19" width="48" height="2.6" fill="#ffffff" opacity="0.3"></rect><ellipse cx="21" cy="22.5" rx="10" ry="4" fill="url(#b-m-brillo)"></ellipse><rect x="8" y="26.6" width="48" height="3.4" fill="#5b21b6" opacity="0.2"></rect></g><rect x="29.2" y="19" width="5.6" height="11" fill="url(#b-m-cinta)" opacity="0.92"></rect><rect x="29.2" y="30" width="5.6" height="24" fill="url(#b-m-cinta)" opacity="0.3"></rect><rect x="34.2" y="19" width="1" height="35" fill="#5b21b6" opacity="0.16"></rect><g class="mascota-lazo"><path d="M31 18 C 27 19.5, 24.5 22.5, 25.5 24.5 C 26.4 26.2, 29 25.4, 30.6 23" fill="url(#b-m-lazo)"></path><path d="M31 18 C 27 19.5, 24.5 22.5, 25.5 24.5 C 26.4 26.2, 29 25.4, 30.6 23" fill="url(#b-m-lazo-dentro)" opacity="0.28"></path><path d="M33 18 C 37 19.5, 39.5 22.5, 38.5 24.5 C 37.6 26.2, 35 25.4, 33.4 23" fill="url(#b-m-lazo)"></path><path d="M33 18 C 37 19.5, 39.5 22.5, 38.5 24.5 C 37.6 26.2, 35 25.4, 33.4 23" fill="url(#b-m-lazo-dentro)" opacity="0.4"></path><path d="M32 17.5 C 24 3, 11 7.5, 18.5 17.8 C 21.5 21.5, 28.5 20.5, 32 17.5 Z" fill="url(#b-m-lazo)"></path><path d="M32 17.5 C 40 3, 53 7.5, 45.5 17.8 C 42.5 21.5, 35.5 20.5, 32 17.5 Z" fill="url(#b-m-lazo)"></path><path d="M32 17.5 C 27 9.5, 19.5 10, 19.6 16.4 C 22.5 19.6, 28.5 19.6, 32 17.5 Z" fill="url(#b-m-lazo-dentro)" opacity="0.35"></path><path d="M32 17.5 C 37 9.5, 44.5 10, 44.4 16.4 C 41.5 19.6, 35.5 19.6, 32 17.5 Z" fill="url(#b-m-lazo-dentro)" opacity="0.45"></path><circle cx="32" cy="17.6" r="3.9" fill="url(#b-m-esfera)"></circle><circle cx="30.7" cy="16.3" r="1.35" fill="#ffffff" opacity="0.62"></circle></g><ellipse class="mascota-cachete" cx="18.4" cy="46.2" rx="2.9" ry="2.2" fill="url(#b-m-cachete)" opacity="0.72"></ellipse><ellipse class="mascota-cachete mascota-cachete-b" cx="45.6" cy="46.2" rx="2.9" ry="2.2" fill="url(#b-m-cachete)" opacity="0.72"></ellipse><g class="mascota-cejas" stroke="#5b21b6" stroke-width="1.45" fill="none" stroke-linecap="round"><path d="M21 35.10 Q25 32.90 29 35.4"></path><path d="M35 34.90 Q39 32.90 43 35.6"></path></g><g class="reg-ojos"><ellipse cx="25" cy="41.8" rx="5" ry="5" fill="#ffffff"></ellipse><ellipse cx="39" cy="41.8" rx="5" ry="5" fill="#ffffff"></ellipse><ellipse cx="25" cy="41.8" rx="5" ry="5" fill="url(#b-m-parpado)"></ellipse><ellipse cx="39" cy="41.8" rx="5" ry="5" fill="url(#b-m-parpado)"></ellipse><g class="mascota-pupilas"><circle cx="25.4" cy="42.4" r="3.4" fill="url(#b-m-iris)"></circle><circle cx="39.4" cy="42.4" r="3.4" fill="url(#b-m-iris)"></circle><circle cx="25.4" cy="42.4" r="1.75" fill="#26131f"></circle><circle cx="39.4" cy="42.4" r="1.75" fill="#26131f"></circle><circle cx="23.8" cy="40.6" r="1.5" fill="#ffffff"></circle><circle cx="37.8" cy="40.6" r="1.5" fill="#ffffff"></circle><circle cx="26.8" cy="44" r="0.75" fill="#ffffff" opacity="0.6"></circle><circle cx="40.8" cy="44" r="0.75" fill="#ffffff" opacity="0.6"></circle></g></g><path d="M27.4 47.6 Q32 48.8 36.6 47.6 Q36 52.6 32 52.6 Q28 52.6 27.4 47.6 Z" fill="#4a1330"></path><path d="M29.4 50.6 Q32 49.2 34.6 50.6 Q34.2 52.6 32 52.6 Q29.8 52.6 29.4 50.6 Z" fill="#f4779f"></path><g fill="#ede9fe"><path class="mascota-chispa" d="M6.5 22 L7.4 24.4 L9.8 25.3 L7.4 26.2 L6.5 28.6 L5.6 26.2 L3.2 25.3 L5.6 24.4 Z"></path><path class="mascota-chispa" style="animation-delay:1.9s" d="M58.5 20 L59.2 21.9 L61.1 22.6 L59.2 23.3 L58.5 25.2 L57.8 23.3 L55.9 22.6 L57.8 21.9 Z"></path><path class="mascota-chispa" style="animation-delay:3.6s" d="M55 54 L55.7 55.9 L57.6 56.6 L55.7 57.3 L55 59.2 L54.3 57.3 L52.4 56.6 L54.3 55.9 Z"></path></g></svg></div></div>
+  </div>
+  <h2>Encárgalo <em>hoy</em></h2>
+  <p>Hacemos cada regalo a la medida y lo llevamos hasta la puerta en toda La Habana.</p>
   <nav class="botones">
     <a class="boton wa" id="b-grupo" href="#" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
-      <span>Únete a nuestro grupo de WhatsApp<small>Novedades, ofertas y encargos</small></span>
-      <span class="flecha">›</span>
+      <span>Únete a nuestro grupo de WhatsApp<small>Ahí publicamos lo nuevo y tomamos encargos</small></span>
+      <svg class="flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
     </a>
     <a class="boton" id="b-tienda" href="#" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>
       <span>Regálalo desde fuera de Cuba<small>Nuestra tienda en Cuballama</small></span>
-      <span class="flecha">›</span>
-    </a>
-    <a class="boton" id="b-instagram" href="#" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></svg>
-      <span>Instagram<small>Más fotos de nuestro trabajo</small></span>
-      <span class="flecha">›</span>
-    </a>
-    <a class="boton" id="b-facebook" href="#" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3Z"/></svg>
-      <span>Facebook<small>Síguenos</small></span>
-      <span class="flecha">›</span>
+      <svg class="flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
     </a>
   </nav>
+  <footer><b>Aura</b> by Karli · Encargos a la medida · La Habana</footer>
+</section>
 
-  <h2 class="galeria-titulo">Nuestro trabajo</h2>
-  <p class="galeria-sub">Toca una foto para verla en grande.</p>
-  <div class="galeria" id="galeria"></div>
-
-  <footer>
-    <p><b>Aura by Karli</b> · Encargos a la medida · Entregas en toda La Habana</p>
-  </footer>
-</main>
-
-<div class="visor" id="visor" role="dialog" aria-modal="true">
+<div class="visor" id="visor" role="dialog" aria-modal="true" aria-label="Foto en grande">
   <button class="cerrar" aria-label="Cerrar">×</button>
   <button class="ant" aria-label="Anterior">‹</button>
   <img alt="">
@@ -137,12 +530,8 @@
   const ENLACES = {
     grupo: "https://chat.whatsapp.com/IeoDCS7rI3jKa20ndDSgh9",
     tienda: "https://www.cuballama.com/mercado/negocio/aura-by-karli895",
-    instagram: null, // null = no sale el botón
-    facebook: null,
   };
-  // Cada foto: archivo en fotos/ y una línea de texto.
   const FOTOS = [
-    { src: "fotos/04.jpg", w: 900, h: 1200, texto: "Ramo de rosas rojas con corona" },
     { src: "fotos/01.jpg", w: 808, h: 1080, texto: "Globo personalizado con peluche y dulces" },
     { src: "fotos/08.jpg", w: 900, h: 1200, texto: "Ramo azul con mariposa y amigurumi" },
     { src: "fotos/05.jpg", w: 900, h: 1200, texto: "Ramo con peluche de capibara" },
@@ -150,6 +539,7 @@
     { src: "fotos/09.jpg", w: 810, h: 1080, texto: "Rosas lila, tarjeta y bombones" },
     { src: "fotos/06.jpg", w: 1200, h: 900, texto: "Caja con osito, chocolates y ramo rojo y negro" },
     { src: "fotos/10.jpg", w: 1080, h: 1080, texto: "Ramo de cumpleaños con cinta personalizada" },
+    { src: "fotos/04.jpg", w: 900, h: 1200, texto: "Ramo de rosas rojas con corona" },
     { src: "fotos/07.jpg", w: 900, h: 1200, texto: "Arreglo de cumpleaños con taza personalizada" },
     { src: "fotos/02.jpg", w: 1150, h: 1200, texto: "Caja de San Valentín con peluche, globo y ramo" },
   ];
@@ -157,38 +547,155 @@
 
   for (const [k, url] of Object.entries(ENLACES)) {
     const a = document.getElementById("b-" + k);
-    if (!a) continue;
-    // null = no lo tenemos: el botón no sale. "" = falta ponerlo (sale en el borrador).
-    if (url) a.href = url; else if (url === null) a.style.display = "none";
+    if (a) url ? (a.href = url) : (a.style.display = "none");
   }
-  const g = document.getElementById("galeria");
+
+  // La galería
+  const pista = document.getElementById("pista");
   FOTOS.forEach((f, i) => {
     const b = document.createElement("button");
-    b.className = "foto";
-    b.innerHTML = f.src
-      ? `<img src="${f.src}" alt="${f.texto}" width="${f.w}" height="${f.h}" ${i < 4 ? "" : 'loading="lazy"'} decoding="async"><figcaption>${f.texto}</figcaption>`
-      : `<div class="relleno" style="--r:${f.r || "4/5"}">foto ${i + 1}</div><figcaption>${f.texto}</figcaption>`;
-    if (f.src) b.onclick = () => abrir(i);
-    g.appendChild(b);
+    b.className = "tarjeta";
+    b.innerHTML = `<div class="foto" style="aspect-ratio:${f.w}/${f.h}"><img src="${f.src}" alt="${f.texto}" width="${f.w}" height="${f.h}" loading="lazy" decoding="async"></div><span>${f.texto}</span>`;
+    b.addEventListener("click", () => abrir(i));
+    pista.appendChild(b);
   });
+
+  // El visor
   const visor = document.getElementById("visor"), vImg = visor.querySelector("img"), vTxt = visor.querySelector("p");
-  const conFoto = FOTOS.map((f, i) => (f.src ? i : -1)).filter((i) => i >= 0);
   let actual = 0;
   function abrir(i) { actual = i; vImg.src = FOTOS[i].src; vImg.alt = FOTOS[i].texto; vTxt.textContent = FOTOS[i].texto; visor.classList.add("abierto"); }
-  function mover(d) { const p = conFoto.indexOf(actual); abrir(conFoto[(p + d + conFoto.length) % conFoto.length]); }
-  visor.querySelector(".cerrar").onclick = () => visor.classList.remove("abierto");
+  function cerrar() { visor.classList.remove("abierto"); }
+  function mover(d) { abrir((actual + d + FOTOS.length) % FOTOS.length); }
+  visor.querySelector(".cerrar").onclick = cerrar;
   visor.querySelector(".ant").onclick = () => mover(-1);
   visor.querySelector(".sig").onclick = () => mover(1);
-  visor.addEventListener("click", (e) => { if (e.target === visor) visor.classList.remove("abierto"); });
+  visor.addEventListener("click", (e) => { if (e.target === visor) cerrar(); });
   document.addEventListener("keydown", (e) => {
     if (!visor.classList.contains("abierto")) return;
-    if (e.key === "Escape") visor.classList.remove("abierto");
+    if (e.key === "Escape") cerrar();
     if (e.key === "ArrowLeft") mover(-1);
     if (e.key === "ArrowRight") mover(1);
   });
   let x0 = null;
   visor.addEventListener("touchstart", (e) => (x0 = e.touches[0].clientX), { passive: true });
   visor.addEventListener("touchend", (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) mover(dx < 0 ? 1 : -1); x0 = null; });
+</script>
+
+<!-- Las animaciones: si GSAP no carga, la página se ve entera igual (todo empieza visible y solo JS lo esconde). -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function () {
+  if (!window.gsap || !window.ScrollTrigger) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });
+
+  // Partir en letras y en palabras (sin tocar lo que va en cursiva)
+  const aura = document.getElementById("aura");
+  aura.innerHTML = [...aura.textContent].map((l) => `<span class="letra">${l}</span>`).join("");
+  const man = document.getElementById("manifiesto");
+  (function partir(nodo) {
+    [...nodo.childNodes].forEach((n) => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach((t) => {
+          if (!t) return;
+          if (/^\s+$/.test(t)) { frag.appendChild(document.createTextNode(t)); return; }
+          const s = document.createElement("span"); s.className = "p"; s.textContent = t; frag.appendChild(s);
+        });
+        n.replaceWith(frag);
+      } else if (n.nodeType === 1) partir(n);
+    });
+  })(man);
+
+  // Barra de arriba
+  gsap.to("#barra", { scaleX: 1, ease: "none", scrollTrigger: { start: 0, end: "max", scrub: 0.3 } });
+
+  // 1 · ENTRADA: la mascota cae con muelle y las letras suben
+  const entrada = gsap.timeline({ defaults: { ease: "expo.out" } });
+  entrada
+    .from(".hero-mascota", { scale: 0.2, opacity: 0, y: 40, duration: 1.3, ease: "back.out(1.8)" })
+    .from("#aura .letra", { yPercent: 110, opacity: 0, rotate: 8, stagger: 0.07, duration: 1.1 }, 0.25)
+    .from(".karli", { clipPath: "inset(0 100% 0 0)", duration: 1.4, ease: "power3.inOut" }, 0.6)
+    .from(".hero-lema", { y: 20, opacity: 0, duration: 1 }, 0.9)
+    .from(".hero-bajar", { opacity: 0, duration: 1 }, 1.3)
+    .from(".chispa", { scale: 0, stagger: 0.15, duration: 0.8, ease: "back.out(3)" }, 0.8);
+
+  // 1 · AL BAJAR: el nombre se abre y se va, la mascota crece hacia ti y todo se oscurece
+  //     hasta convertirse en el fondo del texto que sigue.
+  const centroMascota = () => { const r = document.querySelector(".hero-mascota").getBoundingClientRect(); return innerHeight / 2 - (r.top + r.height / 2); };
+  gsap.timeline({ scrollTrigger: { trigger: "#hero", start: "top top", end: "+=110%", scrub: 0.6, pin: true, invalidateOnRefresh: true } })
+    .to("#aura", { letterSpacing: "0.35em", opacity: 0, y: -50, ease: "none", duration: 0.4 }, 0)
+    .to(".karli, .hero-lema, .hero-bajar, .chispa", { opacity: 0, y: -30, ease: "none", duration: 0.3 }, 0)
+    .to(".hero-mascota", { y: centroMascota, scale: 3.6, ease: "power1.in", duration: 1 }, 0)
+    .to(".hero-mascota", { opacity: 0, ease: "none", duration: 0.3 }, 0.7)
+    .to(".hero-velo", { opacity: 1, ease: "none", duration: 0.45 }, 0.55)
+    .to(".bokeh span:nth-child(odd)", { yPercent: -140, ease: "none", duration: 1 }, 0)
+    .to(".bokeh span:nth-child(even)", { yPercent: -70, scale: 1.5, ease: "none", duration: 1 }, 0);
+
+  // 2 · MANIFIESTO: las palabras se encienden una a una
+  gsap.set("#manifiesto .p", { opacity: 0.14 });
+  // Se queda clavado un rato, pero las palabras empiezan a encenderse ya mientras sube.
+  ScrollTrigger.create({ trigger: ".manifiesto", start: "top top", end: "+=100%", pin: true });
+  gsap.timeline({ scrollTrigger: { trigger: ".manifiesto", start: "top 55%", end: "+=150%", scrub: 0.5 } })
+    .to("#manifiesto .p", { opacity: 1, stagger: 0.12, ease: "none" })
+    .to(".manifiesto-texto em", { color: "#f6c0d6", textShadow: "0 0 28px rgba(233,139,179,.7)", ease: "none" }, ">-0.3");
+
+  // 3 · ZOOM: la foto crece de tarjeta a pantalla entera
+  gsap.set(".zoom-marco", { clipPath: "inset(24% 16% 24% 16% round 28px)" });
+  gsap.set(".zoom-marco img", { scale: 1.3 });
+  gsap.set(".zoom-texto > *", { opacity: 0, y: 40 });
+  gsap.timeline({ scrollTrigger: { trigger: "#zoom", start: "top top", end: "+=130%", scrub: 0.6, pin: true } })
+    .to(".zoom-marco", { clipPath: "inset(0% 0% 0% 0% round 0px)", ease: "none", duration: 1 }, 0)
+    .to(".zoom-marco img", { scale: 1, ease: "none", duration: 1 }, 0)
+    .to(".zoom-texto > *", { opacity: 1, y: 0, stagger: 0.15, duration: 0.4 }, 0.75);
+
+  // 4 · EL MAZO: las cartas se van apartando una a una
+  const cartas = gsap.utils.toArray(".carta");
+  const textos = gsap.utils.toArray(".mazo-texto");
+  const puntos = gsap.utils.toArray(".mazo-puntos i");
+  cartas.forEach((c, i) => gsap.set(c, { zIndex: cartas.length - i, scale: 1 - i * 0.07, y: i * 22, rotate: i ? (i % 2 ? 5 : -5) : 0 }));
+  gsap.set(textos.slice(1), { opacity: 0, y: 24 });
+  const mazo = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#mazo", start: "top top", end: "+=" + cartas.length * 70 + "%", scrub: 0.6, pin: true,
+      onUpdate: (st) => { const k = Math.min(cartas.length - 1, Math.floor(st.progress * cartas.length * 0.999)); puntos.forEach((p, i) => p.classList.toggle("activo", i === k)); },
+    },
+  });
+  cartas.slice(0, -1).forEach((c, i) => {
+    const lado = i % 2 ? 1 : -1;
+    mazo
+      .to(c, { xPercent: 130 * lado, rotate: 22 * lado, y: -40, opacity: 0, ease: "power1.in", duration: 1 }, i)
+      .to(textos[i], { opacity: 0, y: -24, duration: 0.4 }, i)
+      .to(textos[i + 1], { opacity: 1, y: 0, duration: 0.4 }, i + 0.5);
+    cartas.slice(i + 1).forEach((d, j) => mazo.to(d, { scale: 1 - j * 0.07, y: j * 22, rotate: j ? (j % 2 ? 5 : -5) : 0, duration: 1 }, i));
+  });
+  mazo.to({}, { duration: 0.6 });
+
+  // 5 · GALERÍA: se mueve de lado al bajar, y cada foto se endereza al pasar por el centro
+  pista.classList.add("animada");
+  const distancia = () => pista.scrollWidth - window.innerWidth;
+  const lado = gsap.to(pista, {
+    x: () => -distancia(), ease: "none",
+    scrollTrigger: { trigger: "#galeria", start: "top top", end: () => "+=" + distancia(), scrub: 0.6, pin: true, invalidateOnRefresh: true },
+  });
+  gsap.utils.toArray(".tarjeta").forEach((t) => {
+    gsap.fromTo(t.querySelector(".foto"), { rotate: 5, scale: 0.86 }, {
+      keyframes: [{ rotate: 0, scale: 1, ease: "sine.out" }, { rotate: -5, scale: 0.86, ease: "sine.in" }],
+      scrollTrigger: { trigger: t, containerAnimation: lado, start: "left right", end: "right left", scrub: true },
+    });
+  });
+
+  // 6 · FINAL: la mascota salta, la nube aparece y los botones suben
+  gsap.timeline({ scrollTrigger: { trigger: "#final", start: "top 70%" } })
+    .from(".final-mascota .mascota", { y: 80, scale: 0.5, opacity: 0, duration: 1.1, ease: "back.out(1.7)" })
+    .from("#nube", { scale: 0, opacity: 0, transformOrigin: "0% 100%", duration: 0.7, ease: "back.out(2.4)" }, 0.6)
+    .from(".final h2, .final > p", { y: 30, opacity: 0, stagger: 0.12, duration: 0.9, ease: "expo.out" }, 0.3)
+    .from(".boton", { y: 40, opacity: 0, stagger: 0.12, duration: 0.9, ease: "expo.out" }, 0.6);
+
+  window.addEventListener("load", () => ScrollTrigger.refresh());
+})();
 </script>
 </body>
 </html>
